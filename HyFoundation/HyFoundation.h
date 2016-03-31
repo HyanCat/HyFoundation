@@ -1,21 +1,9 @@
 //
 //  HyFoundation.h
-//  HyFoundation
 //
 //  Created by HyanCat on 16/3/31.
 //  Copyright © 2016年 ruogu. All rights reserved.
 //
-
-#import <UIKit/UIKit.h>
-
-//! Project version number for HyFoundation.
-FOUNDATION_EXPORT double HyFoundationVersionNumber;
-
-//! Project version string for HyFoundation.
-FOUNDATION_EXPORT const unsigned char HyFoundationVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <HyFoundation/PublicHeader.h>
-
 
 #ifndef HyFoundation_h
 #define HyFoundation_h
@@ -39,5 +27,19 @@ FOUNDATION_EXPORT const unsigned char HyFoundationVersionString[];
 #import <HyFoundation/UITableView+Hy.h>
 #import <HyFoundation/UIView+Hy.h>
 
+#import <HyFoundation/HyNavigationBar.h>
+#import <HyFoundation/HyUIPanPoint.h>
+#import <HyFoundation/HyImageItem.h>
+#import <HyFoundation/HyModalViewController.h>
+
+#import <HyFoundation/HyAlbumCell.h>
+#import <HyFoundation/HyAlbumViewController.h>
+#import <HyFoundation/HyApplication.h>
+#import <HyFoundation/HyAssetCell.h>
+#import <HyFoundation/HyAssetsViewBar.h>
+#import <HyFoundation/HyAssetsViewController.h>
+#import <HyFoundation/HyContainerViewController.h>
+#import <HyFoundation/HyMultiplePickAssetsViewController.h>
+#import <HyFoundation/HySinglePickAssetsViewController.h>
 
 #endif

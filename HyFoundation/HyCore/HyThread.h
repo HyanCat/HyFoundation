@@ -1,6 +1,5 @@
 //
 //  HyThread.h
-//  ruogu
 //
 //  Created by HyanCat on 15/11/12.
 //  Copyright © 2015年 ruogu. All rights reserved.
