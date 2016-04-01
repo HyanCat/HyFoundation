@@ -13,10 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)presentToContext:(NSManagedObjectContext *)context;
 
-- (NSUInteger)minId;
-
-- (NSUInteger)minUpdateTime;
-
 @end
 
 NS_ASSUME_NONNULL_END
