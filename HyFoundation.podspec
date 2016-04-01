@@ -19,4 +19,5 @@ Pod::Spec.new do |s|
   s.source_files = 'HyFoundation/**/*.{h,m}'
   s.public_header_files = 'HyFoundation/**/*.h'
   s.resource = 'HyFoundation/**/*.xib'
+
 end

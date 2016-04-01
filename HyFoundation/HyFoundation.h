@@ -8,6 +8,7 @@
 #ifndef HyFoundation_h
 #define HyFoundation_h
 
+#import <HyFoundation/HyApplication.h>
 #import <HyFoundation/HyMacros.h>
 #import <HyFoundation/HyEXTBlock.h>
 #import <HyFoundation/HyMath.h>
@@ -26,20 +27,7 @@
 #import <HyFoundation/UIScrollView+Hy.h>
 #import <HyFoundation/UITableView+Hy.h>
 #import <HyFoundation/UIView+Hy.h>
-
-#import <HyFoundation/HyNavigationBar.h>
 #import <HyFoundation/HyUIPanPoint.h>
-#import <HyFoundation/HyImageItem.h>
-#import <HyFoundation/HyModalViewController.h>
 
-#import <HyFoundation/HyAlbumCell.h>
-#import <HyFoundation/HyAlbumViewController.h>
-#import <HyFoundation/HyApplication.h>
-#import <HyFoundation/HyAssetCell.h>
-#import <HyFoundation/HyAssetsViewBar.h>
-#import <HyFoundation/HyAssetsViewController.h>
-#import <HyFoundation/HyContainerViewController.h>
-#import <HyFoundation/HyMultiplePickAssetsViewController.h>
-#import <HyFoundation/HySinglePickAssetsViewController.h>
 
 #endif
