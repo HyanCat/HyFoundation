@@ -63,26 +63,26 @@ static NSString *const kHyAlbumViewCellIdentifier = @"hyAlbumViewCellIdentifier"
 	__weak typeof(self) weakSelf = self;
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		__strong typeof(weakSelf) strongSelf = weakSelf;
-		[self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll
-										  usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-											  if (! group || group.numberOfAssets <= 0) return ;
-											  [group setAssetsFilter:[ALAssetsFilter allPhotos]];
-											  [group enumerateAssetsWithOptions:NSEnumerationReverse
-																	 usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-																		 if (result) {
-																			 // only find the latest asset.
-																			 [self.assets addObject:result];
-																			 [self.albums addObject:group];
-																			 *stop = YES;
-																		 }
-																	 }];
-											  dispatch_async(dispatch_get_main_queue(), ^{
-												  [self.tableView reloadData];
-											  });
-										  }
-										failureBlock:^(NSError *error) {
-											NSLog(@"Error to enumerate assets library!");
-										}];
+		[strongSelf.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll
+											  usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+												  if (! group || group.numberOfAssets <= 0) return ;
+												  [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+												  [group enumerateAssetsWithOptions:NSEnumerationReverse
+																		 usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+																			 if (result) {
+																				 // only find the latest asset.
+																				 [strongSelf.assets addObject:result];
+																				 [strongSelf.albums addObject:group];
+																				 *stop = YES;
+																			 }
+																		 }];
+												  dispatch_async(dispatch_get_main_queue(), ^{
+													  [self.tableView reloadData];
+												  });
+											  }
+											  failureBlock:^(NSError *error) {
+												  NSLog(@"Error to enumerate assets library!");
+											  }];
 	});
 }
 
