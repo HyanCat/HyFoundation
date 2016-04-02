@@ -69,6 +69,18 @@ BOOL HyArrayIsNotEmpty(NSArray *array)
 	return [self objectAtIndex:self.count - 3];
 }
 
+- (NSArray *)pluck:(NSString *)key
+{
+	NSMutableArray *values = @[].mutableCopy;
+	
+	[self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		id value = [obj valueForKey:key] ?: [NSNull null];
+		[values addObject:value];
+	}];
+	
+	return values.copy;
+}
+
 @end
 
 @implementation NSMutableArray (Hy)

@@ -23,6 +23,8 @@ BOOL HyArrayIsNotEmpty(NSArray * _Nullable array);
 - (nullable id)lastButSecondObject;
 - (nullable id)lastButThirdObject;
 
+- (NSArray *)pluck:(NSString *)key;
+
 @end
 
 @interface NSMutableArray (Hy)
