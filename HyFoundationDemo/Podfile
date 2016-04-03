@@ -5,7 +5,8 @@ platform :ios, '7.0'
 
 def pods
 	pod 'DateTools'
-	pod 'HyFoundation', :path => '..'
+	pod 'HyUIActionEvent', :git => "https://github.com/HyanCat/HyUIActionEvent.git"
+	pod 'HyFoundation', :path => ".."
 end
 
 target 'HyFoundationDemo' do

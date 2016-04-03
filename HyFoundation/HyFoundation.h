@@ -30,5 +30,6 @@
 #import <HyFoundation/HyUIPanPoint.h>
 
 #import <HyFoundation/HyBaseViewController.h>
+#import <HyFoundation/HyContainerViewController.h>
 
 #endif
