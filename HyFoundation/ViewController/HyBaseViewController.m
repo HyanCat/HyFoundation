@@ -116,10 +116,16 @@ const CGFloat kNavigationBarHeight = 64.f;
 	}
 	[self.view insertSubviewToFill:self.contentView atIndex:0];
 	
-	UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), kNavigationBarHeight)];
-	navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-	[self.view addSubview:navigationBar];
-	self.navigationBar = navigationBar;
+	
+	if (self.navigationController.navigationBar) {
+		self.navigationBar = self.navigationController.navigationBar;
+	}
+	else {
+		UINavigationBar *navigationBar = self.navigationController.navigationBar ?: [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), kNavigationBarHeight)];
+		navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+		[self.view addSubview:navigationBar];
+		self.navigationBar = navigationBar;
+	}
 }
 
 - (void)loadData
