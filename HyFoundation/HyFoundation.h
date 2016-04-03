@@ -29,5 +29,6 @@
 #import <HyFoundation/UIView+Hy.h>
 #import <HyFoundation/HyUIPanPoint.h>
 
+#import <HyFoundation/HyBaseViewController.h>
 
 #endif

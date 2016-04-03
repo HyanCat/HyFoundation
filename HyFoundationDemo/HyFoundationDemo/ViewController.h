@@ -6,9 +6,9 @@
 //  Copyright © 2016年 hyancat. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <HyFoundation/HyFoundation.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : HyBaseViewController
 
 
 @end
