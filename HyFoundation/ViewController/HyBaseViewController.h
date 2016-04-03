@@ -38,6 +38,8 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 @property (nonatomic, strong, readonly) UINavigationBar *navigationBar;
 
+- (BOOL)preferCustomNavigationBar;		// default NO
+
 - (BOOL)preferNavigationBarHidden;		// default NO
 
 - (CGFloat)preferNavigationBarHeight;	// default 64.0f

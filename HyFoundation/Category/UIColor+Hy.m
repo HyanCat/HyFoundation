@@ -10,11 +10,13 @@
 
 @implementation UIColor (Hy)
 
-+ (UIColor *)colorWithHexString:(NSString *)hexString {
++ (UIColor *)colorWithHexString:(NSString *)hexString
+{
 	return HyColorWithHexString(hexString);
 }
 
-+ (UIColor *)randomColor {
++ (UIColor *)randomColor
+{
 	return HyRandomColor();
 }
 
@@ -27,7 +29,7 @@ UIColor *HyColor(NSString *hexColor)
 
 UIColor *HyRandomColor(void)
 {
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_IPHONE_SIMULATOR || DEBUG
 	return HyColorWithRGB(arc4random() % 255, arc4random() % 255, arc4random() % 255);
 #elif TARGET_OS_IPHONE
 	return HyClearColor();

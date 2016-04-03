@@ -116,12 +116,13 @@ const CGFloat kNavigationBarHeight = 64.f;
 	}
 	[self.view insertSubviewToFill:self.contentView atIndex:0];
 	
-	
+	// 有 navigationController 就使用 navigationController 的 navigationBar
 	if (self.navigationController.navigationBar) {
 		self.navigationBar = self.navigationController.navigationBar;
 	}
-	else {
-		UINavigationBar *navigationBar = self.navigationController.navigationBar ?: [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), kNavigationBarHeight)];
+	else if ([self preferCustomNavigationBar]) {
+		// 使用自定义 navigationBar
+		UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), kNavigationBarHeight)];
 		navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
 		[self.view addSubview:navigationBar];
 		self.navigationBar = navigationBar;
@@ -131,6 +132,11 @@ const CGFloat kNavigationBarHeight = 64.f;
 - (void)loadData
 {
 	
+}
+
+- (BOOL)preferCustomNavigationBar
+{
+	return NO;
 }
 
 - (BOOL)preferNavigationBarHidden
@@ -157,9 +163,11 @@ const CGFloat kNavigationBarHeight = 64.f;
 
 - (void)setNeedsNavigationBarAppearanceUpdate
 {
-	self.navigationBar.height = [self preferNavigationBarHeight];
-	self.navigationBar.hidden = [self preferNavigationBarHidden];
-	[self.navigationBar setItems:self.navigationItem?@[self.navigationItem]:nil animated:NO];
+	if ([self preferCustomNavigationBar]) {
+		// 使用自定义 navigationBar 则更新
+		self.navigationBar.height = [self preferNavigationBarHeight];
+		self.navigationBar.hidden = [self preferNavigationBarHidden];
+	}
 }
 
 - (void)setNavigationCenterItemWithTitle:(NSString *)title color:(UIColor *)color
