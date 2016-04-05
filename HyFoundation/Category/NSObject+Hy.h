@@ -18,6 +18,7 @@
 + (instancetype)invokeClass:(Class)className selector:(SEL)selector arguments:(NSArray *)arguments;
 
 - (void)performSelectorOnMainThread:(SEL)selector withObject:(id)object;
+- (void)performSelectorOnNextRunloop:(SEL)aSelector withObject:(id)anArgument;
 
 /**
  * 判断类是否含有某个属性

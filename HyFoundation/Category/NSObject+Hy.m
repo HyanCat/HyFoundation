@@ -78,6 +78,12 @@
 	}
 }
 
+- (void)performSelectorOnNextRunloop:(SEL)aSelector withObject:(id)anArgument
+{
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:aSelector object:anArgument];
+	[self performSelector:aSelector withObject:anArgument afterDelay:0];
+}
+
 + (BOOL)hasProperty:(NSString *)propertyName
 {
 	objc_property_t property = class_getProperty([self class], propertyName.UTF8String);
