@@ -25,6 +25,23 @@
 	[self endUpdates];
 }
 
+- (void)appendRows:(NSUInteger)rows atSection:(NSUInteger)section
+{
+    [self appendRows:rows atSection:section withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)appendRows:(NSUInteger)rows atSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)rowAnimation
+{
+    NSMutableArray <NSIndexPath *> *indexPaths = [NSMutableArray arrayWithCapacity:rows];
+    NSUInteger rowCount = [self numberOfRowsInSection:section];
+    for (NSUInteger i = 0; i < rows; i++) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:rowCount+i inSection:section]];
+    }
+    [self beginUpdates];
+    [self insertRowsAtIndexPaths:indexPaths.copy withRowAnimation:UITableViewRowAnimationFade];
+    [self endUpdates];
+}
+
 - (void)appendSectionsFromOldData:(NSArray *)oldData appendData:(NSArray *)appendData
 {
 	[self appendSectionsFromOldData:oldData appendData:appendData withRowAnimation:UITableViewRowAnimationTop];

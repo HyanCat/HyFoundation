@@ -19,8 +19,8 @@
 
 @implementation HyEXTListResult
 
-@synthesize expectedCount;
 @synthesize count;
+@synthesize totalCount;
 @synthesize list;
 
 @end
