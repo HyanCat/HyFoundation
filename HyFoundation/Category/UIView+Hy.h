@@ -72,3 +72,9 @@
 - (UIView *)snapshotView:(BOOL)opaque;
 
 @end
+
+@interface UIView (HyAnimation)
+
+- (void)hy_fadeAnimationWithDuration:(NSTimeInterval)duration;
+
+@end

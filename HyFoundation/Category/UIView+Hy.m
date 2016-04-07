@@ -267,3 +267,16 @@
 }
 
 @end
+
+
+@implementation UIView (HyAnimation)
+
+- (void)hy_fadeAnimationWithDuration:(NSTimeInterval)duration
+{
+    CATransition *transition = [CATransition animation];
+    transition.type = kCATransitionFade;
+    transition.duration = duration;
+    [self.layer addAnimation:transition forKey:kCATransition];
+}
+
+@end
