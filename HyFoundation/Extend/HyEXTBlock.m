@@ -39,3 +39,12 @@
 @synthesize remoteUrl;
 
 @end
+
+void HyDebug(HyEXTVoidBlock block)
+{
+#if DEBUG
+    if (block) {
+        block();
+    }
+#endif
+}

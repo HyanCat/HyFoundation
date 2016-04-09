@@ -115,17 +115,16 @@ const CGFloat kNavigationBarHeight = 64.f;
 		[scrollView setScrollIndicatorInsets:UIEdgeInsetsMake(top, 0, 0, 0)];
 	}
 	[self.view insertSubviewToFill:self.contentView atIndex:0];
-	
-	// 有 navigationController 就使用 navigationController 的 navigationBar
-	if (self.navigationController.navigationBar) {
-		self.navigationBar = self.navigationController.navigationBar;
+
+    if ([self preferCustomNavigationBar]) {
+        // 使用自定义 navigationBar
+        UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), kNavigationBarHeight)];
+        navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+        [self.view addSubview:navigationBar];
+        self.navigationBar = navigationBar;
 	}
-	else if ([self preferCustomNavigationBar]) {
-		// 使用自定义 navigationBar
-		UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), kNavigationBarHeight)];
-		navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-		[self.view addSubview:navigationBar];
-		self.navigationBar = navigationBar;
+	else if (self.navigationController.navigationBar) {
+        self.navigationBar = self.navigationController.navigationBar;
 	}
 }
 

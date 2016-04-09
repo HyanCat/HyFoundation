@@ -111,3 +111,5 @@ typedef void(^HyEXTDataProgressCallback)(NSUInteger currentLength, NSUInteger ex
 @property (nonatomic, copy, readwrite) NSURL *remoteUrl;    // 请求的图片远程 url
 
 @end
+
+void HyDebug(HyEXTVoidBlock block);
