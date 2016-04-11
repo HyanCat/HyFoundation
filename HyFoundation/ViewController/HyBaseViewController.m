@@ -9,17 +9,18 @@
 #import "HyApplication.h"
 #import "UIView+Hy.h"
 
-const CGFloat kNavigationBarHeight = 64.f;
+const CGFloat kHyNavigationBarHeight = 64.f;
+const CGFloat kHyStatusBarHeight = 20.f;
 
 @interface HyBaseViewController ()
 
 @property (nonatomic, assign) BOOL appearFirstTime;
 
 @property (nonatomic, strong, readwrite) __kindof UIView *contentView;
-@property (nonatomic, strong, readwrite) CALayer *maskLayer;
 @property (nonatomic, assign, readwrite) HyViewControllerState state;
 
 @property (nonatomic, strong, readwrite) UINavigationBar *navigationBar;
+@property (nonatomic, assign, readwrite) BOOL navigationBarHidden;
 
 @end
 
@@ -106,20 +107,21 @@ const CGFloat kNavigationBarHeight = 64.f;
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.contentView = [[self.contentViewClass alloc] init];
 	self.contentView.backgroundColor = [UIColor whiteColor];
+
+    CGFloat navigationBarHeight = [self preferNavigationBarHeight];
 	if ([self.contentViewClass isSubclassOfClass:[UIScrollView class]]) {
 		UIScrollView *scrollView = self.contentView;
 		scrollView.alwaysBounceVertical = YES;
 		scrollView.showsHorizontalScrollIndicator = NO;
-		CGFloat top = [self preferNavigationBarHeight];
-		[scrollView setContentInset:UIEdgeInsetsMake(top, 0, 0, 0)];
-		[scrollView setScrollIndicatorInsets:UIEdgeInsetsMake(top, 0, 0, 0)];
+		[scrollView setContentInset:UIEdgeInsetsMake(navigationBarHeight, 0, 0, 0)];
+		[scrollView setScrollIndicatorInsets:UIEdgeInsetsMake(navigationBarHeight, 0, 0, 0)];
 	}
 	[self.view insertSubviewToFill:self.contentView atIndex:0];
 
     if ([self preferCustomNavigationBar]) {
         // 使用自定义 navigationBar
-        UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), kNavigationBarHeight)];
-        navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+        UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), navigationBarHeight)];
+        navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
         [self.view addSubview:navigationBar];
         self.navigationBar = navigationBar;
 	}
@@ -135,7 +137,7 @@ const CGFloat kNavigationBarHeight = 64.f;
 
 - (BOOL)preferCustomNavigationBar
 {
-	return NO;
+	return YES;
 }
 
 - (BOOL)preferNavigationBarHidden
@@ -152,12 +154,35 @@ const CGFloat kNavigationBarHeight = 64.f;
 
 - (CGFloat)preferNavigationBarHeight
 {
-	return kNavigationBarHeight;
+	return kHyNavigationBarHeight;
 }
 
 - (CGFloat)preferBottomBarHeight
 {
 	return 0;
+}
+
+- (void)showNavigationBarAnimated:(BOOL)animated
+{
+    self.navigationBarHidden = YES;
+    [UIView animateWithDuration:.3f
+                     animations:^{
+                         self.navigationBar.y = 0;
+                         self.navigationBar.height = [self preferNavigationBarHeight];
+                         [self.navigationBar setItems:@[self.navigationItem]];
+                     }];
+}
+
+- (void)hideNavigationBarAnimated:(BOOL)animated
+{
+    self.navigationBarHidden = NO;
+    [UIView animateWithDuration:.3f
+                     animations:^{
+                         self.navigationBar.y = kHyStatusBarHeight - [self preferNavigationBarHeight];
+                     }
+                     completion:^(BOOL finished) {
+                         [self.navigationBar setItems:nil];
+                     }];
 }
 
 - (void)setNeedsNavigationBarAppearanceUpdate
@@ -166,6 +191,8 @@ const CGFloat kNavigationBarHeight = 64.f;
 		// 使用自定义 navigationBar 则更新
 		self.navigationBar.height = [self preferNavigationBarHeight];
 		self.navigationBar.hidden = [self preferNavigationBarHidden];
+        [self.navigationBar setItems:@[self.navigationItem]];
+        [self.view bringSubviewToFront:self.navigationBar];
 	}
 }
 

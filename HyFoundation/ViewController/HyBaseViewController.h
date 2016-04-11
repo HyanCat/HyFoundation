@@ -25,7 +25,6 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 @property (nonatomic, strong) Class contentViewClass;
 @property (nonatomic, strong, readonly) __kindof UIView *contentView;
-@property (nonatomic, strong, readonly) CALayer *maskLayer;
 @property (nonatomic, weak) HyContainerViewController *containerViewController;
 
 #pragma mark - Build View
@@ -34,11 +33,12 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 - (void)loadData;
 
-#pragma mark Navigation Bar
+#pragma mark - Navigation Bar
 
 @property (nonatomic, strong, readonly) UINavigationBar *navigationBar;
+@property (nonatomic, assign, readonly, getter=isNavigationBarHidden) BOOL navigationBarHidden;
 
-- (BOOL)preferCustomNavigationBar;		// default NO
+- (BOOL)preferCustomNavigationBar;		// default YES
 
 - (BOOL)preferNavigationBarHidden;		// default NO
 
@@ -46,7 +46,12 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 - (CGFloat)preferBottomBarHeight;		// default 0
 
+- (void)showNavigationBarAnimated:(BOOL)animated;
+- (void)hideNavigationBarAnimated:(BOOL)animated;
+
 - (void)setNeedsNavigationBarAppearanceUpdate;
+
+#pragma mark Navigation Items
 
 - (void)setNavigationCenterItemWithTitle:(NSString *)title color:(UIColor *)color;
 
@@ -63,6 +68,8 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 								target:(id)target
 								action:(SEL)action;
 
+- (void)setNavigationLeftItemWithCustomView:(UIView *)customView;
+
 - (void)setNavigationRightItemWithTitle:(NSString *)title
 								  color:(UIColor *)color
 						 highlightColor:(UIColor *)highlightColor
@@ -73,6 +80,8 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 						 highlightImage:(UIImage *)highlightImage
 								 target:(id)target
 								 action:(SEL)action;
+
+- (void)setNavigationRightItemWithCustomView:(UIView *)customView;
 
 #pragma mark - User Interaction
 
