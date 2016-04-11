@@ -55,9 +55,9 @@ BOOL HyDictionaryIsNotEmpty(NSDictionary *dictionary)
 	return ![newValue isEqual:oldValue];
 }
 
-- (instancetype)filterKeys:(NSArray<NSString *> *)keys
+- (instancetype)keepValueForKeys:(NSArray<NSString *> *)keys
 {
-	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+	NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:keys.count];
 	[self enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 		if ([keys containsObject:key]) {
 			[dictionary setObject:obj forKey:key];

@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HyEXTBlock.h"
 
 typedef NS_ENUM(NSUInteger, HyViewControllerState)
 {
@@ -104,5 +105,14 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
+
+@end
+
+
+@interface HyBaseViewController (HyUITransition)
+
+- (void)pushToViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(HyEXTVoidBlock)completion userInfo:(NSDictionary *)userInfo;
+- (void)presentViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(HyEXTVoidBlock)completion userInfo:(NSDictionary *)userInfo;
+- (void)popViewControllerAnimated:(BOOL)animated;
 
 @end

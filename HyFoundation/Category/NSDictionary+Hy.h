@@ -14,6 +14,6 @@ BOOL HyDictionaryIsNotEmpty(NSDictionary *dictionary);
 
 - (BOOL)isKVOValueChanged;
 
-- (instancetype)filterKeys:(NSArray <NSString *> *)keys;
+- (instancetype)keepValueForKeys:(NSArray <NSString *> *)keys;
 
 @end

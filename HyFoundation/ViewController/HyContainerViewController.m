@@ -13,6 +13,7 @@
 #import "NSObject+Hy.h"
 #import "UIImage+Hy.h"
 #import "UIGestureRecognizer+Hy.h"
+#import "HyUIPanPoint.h"
 
 #define TransitionParallax 1.f/3
 #define TransitionDuration 0.5f
@@ -26,11 +27,6 @@
 
 @property (nonatomic, strong) UIView *rootView;
 
-/**
- * 控制器二维数组
- * 每 push 一次，在最上层维度数组增加一个 ViewController
- * 每 present 一次，数组增加一层，新层为 present 的 ViewController
- */
 @property (nonatomic, strong) NSMutableArray <NSMutableArray <HyBaseViewController *> *> *viewControllers;
 @property (nonatomic, strong) NSMutableArray <NSString *> *viewControllerUrls;		// 控制器 url 数组
 @property (nonatomic, strong) NSMutableArray <NSNumber *> *historyTransitionTypes;	// 转场历史记录数组
@@ -58,25 +54,33 @@
 	if (self) {
 		_rootViewController = rootViewController;
 		_rootViewController.containerViewController = self;
-		
-		_viewControllers = @[@[_rootViewController].mutableCopy].mutableCopy;
-		_viewControllerUrls = [@[NSStringFromClass(_rootViewController.class)] mutableCopy];
+
+        if (rootViewController) {
+            _viewControllers = @[@[_rootViewController].mutableCopy].mutableCopy;
+            _viewControllerUrls = @[NSStringFromClass(_rootViewController.class)].mutableCopy;
+        }
+        else {
+            _viewControllers = @[@[].mutableCopy].mutableCopy;
+            _viewControllerUrls = @[].mutableCopy;
+        }
 		_historyTransitionTypes = [@[@(HyUITransitionTypeNone)] mutableCopy];
 	}
 	return self;
 }
 
-- (void)loadSubviews {
+- (void)loadSubviews
+{
     [super loadSubviews];
-	
+
 	// rootView
 	UIView *rootView = [[UIView alloc] initWithFrame:self.contentView.bounds];
 	[self.contentView addSubviewToFill:rootView];
 	self.rootView = rootView;
-	
+
 	// 添加 rootViewController 的 view
 	[self.rootView addSubviewToFill:_rootViewController.view];
-	
+
+    // 手势
 	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
 	panGestureRecognizer.delegate = self;
 	[self.view addGestureRecognizer:panGestureRecognizer];
@@ -88,26 +92,26 @@
 	return YES;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
+- (HyBaseViewController *)rootViewController
 {
-	return UIStatusBarStyleLightContent;
+    if (!_rootViewController) {
+        _rootViewController = [[self.viewControllers firstObject] firstObject];
+    }
+    return _rootViewController;
 }
 
-
-#pragma mark self.viewControllers 数组维护
+#pragma mark - self.viewControllers 数组维护
 
 // 最上层的 controllers
 - (NSMutableArray <HyBaseViewController *> *)topLevelViewControllers
 {
-	return [self.viewControllers lastObject];
+	return self.viewControllers.lastObject;
 }
-
 // 第二层的 controllers
 - (NSMutableArray <HyBaseViewController *> *)underTopLevelViewControllers
 {
 	return [self.viewControllers objectAtCirclePosition:-2];
 }
-
 // 最上层 当前 controller
 - (HyBaseViewController *)currentController
 {
@@ -119,11 +123,13 @@
 	return [[self topLevelViewControllers] objectAtCirclePosition:-2];
 }
 
+// 推进一个新的控制器
 - (void)pushANewViewController:(HyBaseViewController *)viewController
 {
 	[[self topLevelViewControllers] addObject:viewController];
 }
 
+// 压入一个新的控制器层
 - (void)presentANewViewController:(HyBaseViewController *)viewController
 {
 	NSMutableArray *newLevel = @[viewController].mutableCopy;
@@ -139,7 +145,7 @@
 	return count;
 }
 
-#pragma mark Handler Event
+#pragma mark - Handler Event
 
 - (HyUIActionEventResult *)handleTransitionWithActionEvent:(HyUIActionEvent *)event
 {
@@ -172,7 +178,9 @@
 			toViewController.containerViewController = self;
 		}
 		[[event transitionToViewControllerInfo] enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-			[toViewController setValue:obj forKey:key];
+            if ([ToViewControllerClass hasProperty:key]) {
+                [toViewController setValue:obj forKey:key];
+            }
 		}];
 	}
 

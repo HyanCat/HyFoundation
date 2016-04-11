@@ -8,6 +8,7 @@
 #import "HyBaseViewController.h"
 #import "HyApplication.h"
 #import "UIView+Hy.h"
+#import <HyUIActionEvent/HyUIActionCore.h>
 
 const CGFloat kHyNavigationBarHeight = 64.f;
 const CGFloat kHyStatusBarHeight = 20.f;
@@ -368,6 +369,35 @@ const CGFloat kHyStatusBarHeight = 20.f;
 {
 	// nothing to do
 	// 子类重写
+}
+
+@end
+
+@implementation HyBaseViewController (HyUITransition)
+
+- (void)pushToViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(HyEXTVoidBlock)completion userInfo:(NSDictionary *)userInfo
+{
+    [self dispatchHyUIActionEvent:[HyUIActionEvent eventWithTransitionType:HyUITransitionTypePush
+                                                                  animated:animated
+                                                                completion:completion
+                                                       toViewControllerURL:controllerUrl
+                                                    toViewControllerValues:userInfo]
+                      inMainThead:YES];
+}
+
+- (void)presentViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(HyEXTVoidBlock)completion userInfo:(NSDictionary *)userInfo
+{
+    [self dispatchHyUIActionEvent:[HyUIActionEvent eventWithTransitionType:HyUITransitionTypePresent
+                                                                  animated:animated
+                                                                completion:completion
+                                                       toViewControllerURL:controllerUrl
+                                                    toViewControllerValues:userInfo]
+                      inMainThead:YES];
+}
+
+- (void)popViewControllerAnimated:(BOOL)animated
+{
+    [self dispatchHyUIActionEvent:[HyUIActionEvent eventWithTransitionTypeBackAnimated:animated] inMainThead:YES];
 }
 
 @end
