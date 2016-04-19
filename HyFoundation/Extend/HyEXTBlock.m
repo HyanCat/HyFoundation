@@ -40,6 +40,13 @@
 
 @end
 
+void HyBlock(HyEXTVoidBlock block)
+{
+    if (block) {
+        block();
+    }
+}
+
 void HyDebug(HyEXTVoidBlock block)
 {
 #if DEBUG

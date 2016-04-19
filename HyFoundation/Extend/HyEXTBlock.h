@@ -112,4 +112,5 @@ typedef void(^HyEXTDataProgressCallback)(NSUInteger currentLength, NSUInteger ex
 
 @end
 
+void HyBlock(HyEXTVoidBlock block);
 void HyDebug(HyEXTVoidBlock block);
