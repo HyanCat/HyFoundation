@@ -25,6 +25,25 @@
 	[self endUpdates];
 }
 
+- (void)prependRows:(NSUInteger)rows atSection:(NSUInteger)section
+{
+    [self prependRows:rows atSection:section withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)prependRows:(NSUInteger)rows atSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)rowAnimation
+{
+    if (rows == 0) {
+        return;
+    }
+    NSMutableArray <NSIndexPath *> *indexPaths = [NSMutableArray arrayWithCapacity:rows];
+    for (NSUInteger i = 0; i < rows; i++) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
+    }
+    [self beginUpdates];
+    [self insertRowsAtIndexPaths:indexPaths.copy withRowAnimation:UITableViewRowAnimationFade];
+    [self endUpdates];
+}
+
 - (void)appendRows:(NSUInteger)rows atSection:(NSUInteger)section
 {
     [self appendRows:rows atSection:section withRowAnimation:UITableViewRowAnimationFade];
@@ -32,10 +51,33 @@
 
 - (void)appendRows:(NSUInteger)rows atSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)rowAnimation
 {
+    if (rows == 0) {
+        return;
+    }
     NSMutableArray <NSIndexPath *> *indexPaths = [NSMutableArray arrayWithCapacity:rows];
     NSUInteger rowCount = [self numberOfRowsInSection:section];
     for (NSUInteger i = 0; i < rows; i++) {
         [indexPaths addObject:[NSIndexPath indexPathForRow:rowCount+i inSection:section]];
+    }
+    [self beginUpdates];
+    [self insertRowsAtIndexPaths:indexPaths.copy withRowAnimation:UITableViewRowAnimationFade];
+    [self endUpdates];
+}
+
+- (void)insertRowsWithRange:(NSRange)range atSection:(NSUInteger)section
+{
+    [self insertRowsWithRange:range atSection:section withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)insertRowsWithRange:(NSRange)range atSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)rowAnimation
+{
+    if (range.length == 0) {
+        return;
+    }
+    NSMutableArray <NSIndexPath *> *indexPaths = [NSMutableArray arrayWithCapacity:range.length];
+    NSUInteger rowCount = [self numberOfRowsInSection:section];
+    for (NSUInteger i = 0; i < range.length; i++) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:range.location+i inSection:section]];
     }
     [self beginUpdates];
     [self insertRowsAtIndexPaths:indexPaths.copy withRowAnimation:UITableViewRowAnimationFade];

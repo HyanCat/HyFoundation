@@ -193,7 +193,7 @@
 							  completion:event.transitionCompletionBlock];
 			break;
 		case HyUITransitionTypePush:
-			[toViewController setNavigationLeftItemWithImage:HyUIImage(@"navigation_back") highlightImage:HyUIImage(@"navigation_back") target:self action:@selector(handleNavigationBarBackItemTouched:)];
+			[toViewController setNavigationLeftItemWithImage:HyUIImage(@"icon_navigation_back") highlightImage:HyUIImage(@"icon_navigation_back") target:self action:@selector(handleNavigationBarBackItemTouched:)];
 			[self pushToViewController:toViewController
 							  animated:event.transitionIsAnimated
 					 viewControllerUrl:event.transitionToViewControllerURL

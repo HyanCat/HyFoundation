@@ -54,9 +54,8 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 #pragma mark Navigation Items
 
-- (void)setNavigationCenterItemWithTitle:(NSString *)title color:(UIColor *)color;
-
-- (void)setNavigationCenterItemWithCustomView:(UIView *)view;
+- (void)setNavigationCenterItemWithTitle:(NSString *)title
+                                   color:(UIColor *)color;
 
 - (void)setNavigationLeftItemWithTitle:(NSString *)title
 								 color:(UIColor *)color
@@ -64,25 +63,28 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 								target:(id)target
 								action:(SEL)action;
 
+- (void)setNavigationRightItemWithTitle:(NSString *)title
+                                  color:(UIColor *)color
+                         highlightColor:(UIColor *)highlightColor
+                                 target:(id)target
+                                 action:(SEL)action;
+
 - (void)setNavigationLeftItemWithImage:(UIImage *)image
 						highlightImage:(UIImage *)highlightImage
 								target:(id)target
 								action:(SEL)action;
-
-- (void)setNavigationLeftItemWithCustomView:(UIView *)customView;
-
-- (void)setNavigationRightItemWithTitle:(NSString *)title
-								  color:(UIColor *)color
-						 highlightColor:(UIColor *)highlightColor
-								 target:(id)target
-								 action:(SEL)action;
 
 - (void)setNavigationRightItemWithImage:(UIImage *)image
 						 highlightImage:(UIImage *)highlightImage
 								 target:(id)target
 								 action:(SEL)action;
 
-- (void)setNavigationRightItemWithCustomView:(UIView *)customView;
+- (void)setNavigationCenterItemWithCustomView:(__kindof UIView *)view;
+- (void)setNavigationLeftItemWithCustomView:(__kindof UIView *)customView;
+- (void)setNavigationRightItemWithCustomView:(__kindof UIView *)customView;
+
+@property (nonatomic, weak, readonly) __kindof UIView *navigationLeftCustomView;
+@property (nonatomic, weak, readonly) __kindof UIView *navigationRightCustomView;
 
 #pragma mark - User Interaction
 

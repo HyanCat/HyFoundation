@@ -23,6 +23,9 @@ const CGFloat kHyStatusBarHeight = 20.f;
 @property (nonatomic, strong, readwrite) UINavigationBar *navigationBar;
 @property (nonatomic, assign, readwrite) BOOL navigationBarHidden;
 
+@property (nonatomic, weak, readwrite) __kindof UIView *navigationLeftCustomView;
+@property (nonatomic, weak, readwrite) __kindof UIView *navigationRightCustomView;
+
 @end
 
 @implementation HyBaseViewController
@@ -219,7 +222,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 								target:(id)target
 								action:(SEL)action
 {
-	UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
+	UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
 	[leftButton setTitle:title forState:UIControlStateNormal];
 	[leftButton setTitleColor:color forState:UIControlStateNormal];
 	[leftButton setTitleColor:highlightColor forState:UIControlStateHighlighted];
@@ -234,15 +237,11 @@ const CGFloat kHyStatusBarHeight = 20.f;
 								target:(id)target
 								action:(SEL)action
 {
-	CGFloat imageLeftPadding = 10.f;
-	UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
+	UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
 	[leftButton setImage:image forState:UIControlStateNormal];
 	[leftButton setImage:highlightImage forState:UIControlStateHighlighted];
 	[leftButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-	CGFloat leftInset = imageLeftPadding;
-	CGFloat rightInset = CGRectGetWidth(leftButton.frame) - CGRectGetWidth(leftButton.imageView.frame) - leftInset;
-	[leftButton setImageEdgeInsets:UIEdgeInsetsMake(0, leftInset, 0, rightInset)];
-	
+
 	[self setNavigationLeftItemWithCustomView:leftButton];
 }
 
@@ -252,7 +251,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 								 target:(id)target
 								 action:(SEL)action
 {
-	UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
+	UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
 	[rightButton setTitle:title forState:UIControlStateNormal];
 	[rightButton setTitleColor:color forState:UIControlStateNormal];
 	[rightButton setTitleColor:highlightColor forState:UIControlStateHighlighted];
@@ -267,49 +266,47 @@ const CGFloat kHyStatusBarHeight = 20.f;
 								 target:(id)target
 								 action:(SEL)action
 {
-	CGFloat imageRightPadding = 10.f;
-	UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
+	UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
 	[rightButton setImage:image forState:UIControlStateNormal];
 	[rightButton setImage:highlightImage forState:UIControlStateHighlighted];
 	[rightButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-	CGFloat rightInset = imageRightPadding;
-	CGFloat leftInset = CGRectGetWidth(rightButton.frame) - CGRectGetWidth(rightButton.imageView.frame) - rightInset;
-	[rightButton setImageEdgeInsets:UIEdgeInsetsMake(0, leftInset, 0, rightInset)];
-	
+
 	[self setNavigationRightItemWithCustomView:rightButton];
 }
 
 - (void)setNavigationLeftItemWithCustomView:(UIView *)customView
 {
-	self.navigationItem.leftBarButtonItems = [self navigationLeftItemsWithCustomView:customView];
+    self.navigationLeftCustomView = customView;
+	self.navigationItem.leftBarButtonItems = [self _navigationLeftItemsWithCustomView:customView];
 }
 
 - (void)setNavigationRightItemWithCustomView:(UIView *)customView
 {
-	self.navigationItem.rightBarButtonItems = [self navigationRightItemsWithCustomView:customView];
+    self.navigationRightCustomView = customView;
+	self.navigationItem.rightBarButtonItems = [self _navigationRightItemsWithCustomView:customView];
 }
 
-- (NSArray *)navigationLeftItemsWithCustomView:(UIView *)customView
+- (NSArray *)_navigationLeftItemsWithCustomView:(UIView *)customView
 {
 	UIBarButtonItem * leftCustomItem = [[UIBarButtonItem alloc] initWithCustomView:customView];
 	
 	CGFloat leftPaddingItemWidth = -16.f;
-	
+
 	UIBarButtonItem * leftPaddingItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 	leftPaddingItem.width = leftPaddingItemWidth;
-	
+
 	return @[leftPaddingItem, leftCustomItem];
 }
 
-- (NSArray *)navigationRightItemsWithCustomView:(UIView *)customView
+- (NSArray *)_navigationRightItemsWithCustomView:(UIView *)customView
 {
 	UIBarButtonItem * rightCustomItem = [[UIBarButtonItem alloc] initWithCustomView:customView];
-	
+
 	CGFloat rightPaddingItemWidth = -16.f;
 
 	UIBarButtonItem * rightPaddingItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 	rightPaddingItem.width = rightPaddingItemWidth;
-	
+
 	return @[rightPaddingItem, rightCustomItem];
 }
 

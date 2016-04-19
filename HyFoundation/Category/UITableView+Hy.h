@@ -11,8 +11,14 @@
 
 - (void)appendRowsAtSection:(NSUInteger)section fromOldData:(NSArray *)oldData appendData:(NSArray *)appendData NS_DEPRECATED_IOS(2_0, 3_0);
 - (void)appendRowsAtSection:(NSUInteger)section fromOldData:(NSArray *)oldData appendData:(NSArray *)appendData withRowAnimation:(UITableViewRowAnimation)rowAnimation NS_DEPRECATED_IOS(2_0, 3_0);
+
+- (void)prependRows:(NSUInteger)rows atSection:(NSUInteger)section;
+- (void)prependRows:(NSUInteger)rows atSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)rowAnimation;
 - (void)appendRows:(NSUInteger)rows atSection:(NSUInteger)section;
 - (void)appendRows:(NSUInteger)rows atSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)rowAnimation;
+- (void)insertRowsWithRange:(NSRange)range atSection:(NSUInteger)section;
+- (void)insertRowsWithRange:(NSRange)range atSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)rowAnimation;;
+
 - (void)appendSectionsFromOldData:(NSArray *)oldData appendData:(NSArray *)appendData;
 - (void)appendSectionsFromOldData:(NSArray *)oldData appendData:(NSArray *)appendData withRowAnimation:(UITableViewRowAnimation)rowAnimation;
 

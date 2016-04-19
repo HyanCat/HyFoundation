@@ -2,7 +2,7 @@
 //  HyFoundation.h
 //
 //  Created by HyanCat on 16/3/31.
-//  Copyright © 2016年 ruogu. All rights reserved.
+//  Copyright © 2016年 HyanCat. All rights reserved.
 //
 
 #ifndef HyFoundation_h
