@@ -186,7 +186,7 @@
 
 	switch ([event transitionType]) {
 		case HyUITransitionTypeNone:
-			[toViewController setNavigationLeftItemWithTitle:@"关闭" color:[UIColor whiteColor] highlightColor:[UIColor lightGrayColor] target:self action:@selector(handleNavigationBarDismissItemTouched:)];
+			[toViewController setNavigationLeftItemWithTitle:@"关闭" color:[UIColor grayColor] highlightColor:[UIColor lightGrayColor] target:self action:@selector(handleNavigationBarDismissItemTouched:)];
 			[self AppearToViewController:toViewController
 								animated:event.transitionIsAnimated
 					   viewControllerUrl:event.transitionToViewControllerURL

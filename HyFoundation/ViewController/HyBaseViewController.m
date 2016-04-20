@@ -222,7 +222,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 								target:(id)target
 								action:(SEL)action
 {
-	UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+	UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
 	[leftButton setTitle:title forState:UIControlStateNormal];
 	[leftButton setTitleColor:color forState:UIControlStateNormal];
 	[leftButton setTitleColor:highlightColor forState:UIControlStateHighlighted];
@@ -251,7 +251,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 								 target:(id)target
 								 action:(SEL)action
 {
-	UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+	UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
 	[rightButton setTitle:title forState:UIControlStateNormal];
 	[rightButton setTitleColor:color forState:UIControlStateNormal];
 	[rightButton setTitleColor:highlightColor forState:UIControlStateHighlighted];
