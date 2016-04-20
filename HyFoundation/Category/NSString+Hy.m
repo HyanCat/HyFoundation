@@ -102,6 +102,11 @@
 	return camelCaseString.copy;
 }
 
+- (NSString *)trim
+{
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \n\t\r"]];
+}
+
 @end
 
 BOOL HyStringIsNil(NSString *string)

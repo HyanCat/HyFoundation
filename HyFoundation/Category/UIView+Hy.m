@@ -243,17 +243,29 @@
 
 - (UIImage *)snapshot;
 {
-	return [self snapshot:YES];
+	return [self snapshot:self.opaque];
 }
 
 - (UIImage *)snapshot:(BOOL)opaque;
 {
-	UIGraphicsBeginImageContextWithOptions(self.frame.size, opaque, [[UIScreen mainScreen] scale]);
+	UIGraphicsBeginImageContextWithOptions(self.bounds.size, opaque, [[UIScreen mainScreen] scale]);
 	[[self layer] renderInContext:UIGraphicsGetCurrentContext()];
-	UIImage * snapshot = UIGraphicsGetImageFromCurrentImageContext();
+	UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 
 	return snapshot;
+}
+
+
+- (UIImage *)snapshotImageAfterScreenUpdates:(BOOL)afterUpdates {
+    if (![self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+        return [self snapshot];
+    }
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
+    [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:afterUpdates];
+    UIImage *snap = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return snap;
 }
 
 - (UIView *)snapshotView;

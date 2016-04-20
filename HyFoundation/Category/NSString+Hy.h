@@ -27,6 +27,8 @@
 // 字符串下划线转驼峰
 - (NSString *)toCamelCaseString;
 
+- (NSString *)trim;
+
 @end
 
 BOOL HyStringIsNil(NSString *string);

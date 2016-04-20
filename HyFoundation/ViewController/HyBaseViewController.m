@@ -202,11 +202,11 @@ const CGFloat kHyStatusBarHeight = 20.f;
 
 - (void)setNavigationCenterItemWithTitle:(NSString *)title color:(UIColor *)color
 {
-	UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 160, 44)];
-	titleLabel.backgroundColor = [UIColor clearColor];
-	titleLabel.textAlignment = NSTextAlignmentCenter;
-	titleLabel.text = title;
-	titleLabel.textColor = color;
+    UILabel * titleLabel     = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 160, 44)];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.text          = title;
+    titleLabel.textColor     = color;
+    titleLabel.font          = [UIFont boldSystemFontOfSize:16.f];
 
 	[self setNavigationCenterItemWithCustomView:titleLabel];
 }
