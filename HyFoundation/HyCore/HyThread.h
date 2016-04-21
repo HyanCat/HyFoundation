@@ -17,3 +17,8 @@ void HyPerformOnMainThreadElseAsync(HyEXTVoidBlock block);
  */
 void HyPerformOnMainThreadSync(HyEXTVoidBlock block);
 
+/**
+ * 后台线程执行 block
+ */
+void HyPerformBackground(HyEXTVoidBlock block);
+
