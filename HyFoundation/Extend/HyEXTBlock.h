@@ -45,7 +45,7 @@
 /**
  * 请求对象数据结果
  */
-@protocol HyEXTImageResult <NSObject>
+@protocol HyEXTImageResult <NSObject, NSCoding>
 
 @property (nonatomic, copy, readonly) UIImage *image;   // 请求的图片
 @property (nonatomic, copy, readonly) NSURL *remoteUrl; // 请求的图片远程 url

@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+BOOL isEqualObject(id object1, id object2);
+
 @interface NSObject (Hy)
 
 + (BOOL)equalToObject1:(id)object1 andObject2:(id)object2;
@@ -29,6 +31,13 @@
  * 遍历属性
  */
 - (void)enumeratePropertiesUsingBlock:(void (^) (NSString *propertyName))block;
+
+/**
+ * 属性名列表
+ *
+ * @return NSArray
+ */
+- (NSArray <NSString *> *)properties;
 
 /**
  * 类的成员属性的类名

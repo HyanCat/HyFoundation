@@ -8,6 +8,11 @@
 #import "NSObject+Hy.h"
 #import <objc/runtime.h>
 
+BOOL isEqualObject(id object1, id object2)
+{
+    return [NSObject equalToObject1:object1 andObject2:object2];
+}
+
 @implementation NSObject (Hy)
 
 + (BOOL)equalToObject1:(id)object1 andObject2:(id)object2
@@ -18,6 +23,12 @@
 	else if (object1 == nil && object2 != nil) {
 		return NO;
 	}
+    else if ([object1 isKindOfClass:[NSNumber class]] && [object2 isKindOfClass:[NSNumber class]]) {
+        return [object1 isEqualToNumber:object2];
+    }
+    else if ([object1 isKindOfClass:[NSString class]] && [object2 isKindOfClass:[NSString class]]) {
+        return [object1 isEqualToString:object2];
+    }
 	else {
 		return [object1 isEqual:object2];
 	}
@@ -100,6 +111,19 @@
 		NSString *propertyName = [NSString stringWithUTF8String:property_getName(pro)];
 		block(propertyName);
 	}
+}
+
+- (NSArray<NSString *> *)properties
+{
+    unsigned int count = 0;
+    objc_property_t *properties = class_copyPropertyList([self class], &count);
+    NSMutableArray *propertiesArray = [NSMutableArray arrayWithCapacity:count];
+    for (unsigned int i = 0; i < count; i++) {
+        objc_property_t pro = properties[i];
+        NSString *propertyName = [NSString stringWithUTF8String:property_getName(pro)];
+        [propertiesArray addObject:propertyName];
+    }
+    return propertiesArray.copy;
 }
 
 + (Class)classForProperty:(NSString *)propertyName

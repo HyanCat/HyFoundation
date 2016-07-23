@@ -123,6 +123,7 @@
 {
 	[subview removeFromSuperviewIfExist];
 	subview.frame = self.bounds;
+    // deprecated
 	subview.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self addSubview:subview];
 }
