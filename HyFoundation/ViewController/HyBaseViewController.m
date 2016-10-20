@@ -6,7 +6,6 @@
 //
 
 #import "HyBaseViewController.h"
-#import "HyApplication.h"
 #import "UIView+Hy.h"
 #import <HyUIActionEvent/HyUIActionCore.h>
 
@@ -39,7 +38,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 #endif
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kHyUIStatusBarTouchedNotificationName object:nil];
+//	[[NSNotificationCenter defaultCenter] removeObserver:self name:kRGUIStatusBarTouchedNotificationName object:nil];
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -100,7 +99,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleStatusBarTouched:) name:kHyUIStatusBarTouchedNotificationName object:nil];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleStatusBarTouched:) name:kRGUIStatusBarTouchedNotificationName object:nil];
 }
 
 
@@ -372,7 +371,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 
 @implementation HyBaseViewController (HyUITransition)
 
-- (void)pushToViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(HyEXTVoidBlock)completion userInfo:(NSDictionary *)userInfo
+- (void)pushToViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(dispatch_block_t)completion userInfo:(NSDictionary *)userInfo
 {
     [self dispatchHyUIActionEvent:[HyUIActionEvent eventWithTransitionType:HyUITransitionTypePush
                                                                   animated:animated
@@ -382,7 +381,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
                       inMainThead:YES];
 }
 
-- (void)presentViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(HyEXTVoidBlock)completion userInfo:(NSDictionary *)userInfo
+- (void)presentViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(dispatch_block_t)completion userInfo:(NSDictionary *)userInfo
 {
     [self dispatchHyUIActionEvent:[HyUIActionEvent eventWithTransitionType:HyUITransitionTypePresent
                                                                   animated:animated

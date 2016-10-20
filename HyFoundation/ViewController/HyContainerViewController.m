@@ -6,7 +6,6 @@
 //
 
 #import "HyContainerViewController.h"
-#import "HyEXTBlock.h"
 #import "UIView+Hy.h"
 #import "NSArray+Hy.h"
 #import <HyUIActionEvent/HyUIActionCore.h>

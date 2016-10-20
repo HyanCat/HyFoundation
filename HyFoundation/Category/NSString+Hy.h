@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyEXTBlock.h"
 
 #define STRING_SEL(x) NSStringFromSelector(@selector(x))
 #define STRING_CLASS(x) NSStringFromClass([x class])
@@ -18,7 +17,7 @@
 - (NSUInteger)hexStringToNum;
 
 + (NSString *)bundleFileContent:(NSString *)fileName;
-+ (NSString *)bundleFileContent:(NSString *)fileName failure:(HyEXTResultCallback)failure;
++ (NSString *)bundleFileContent:(NSString *)fileName failure:(void(^)(NSError *))failure;
 
 + (NSString *)stringSizeSemanticly:(NSUInteger)size;
 

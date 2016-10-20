@@ -8,11 +8,8 @@
 #ifndef HyFoundation_h
 #define HyFoundation_h
 
-#import <HyFoundation/HyApplication.h>
 #import <HyFoundation/HyMacros.h>
-#import <HyFoundation/HyEXTBlock.h>
 #import <HyFoundation/HyMath.h>
-#import <HyFoundation/HyThread.h>
 #import <HyFoundation/NSArray+Hy.h>
 #import <HyFoundation/NSDate+Hy.h>
 #import <HyFoundation/NSDictionary+Hy.h>

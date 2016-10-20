@@ -6,6 +6,7 @@ Pod::Spec.new do |s|
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
 
   s.description      = <<-DESC
+  A Foundation Library.
                        DESC
 
   s.homepage         = "https://github.com/HyanCat/HyFoundation"

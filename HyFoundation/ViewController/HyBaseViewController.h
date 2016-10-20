@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HyEXTBlock.h"
 
 typedef NS_ENUM(NSUInteger, HyViewControllerState)
 {
@@ -113,8 +112,8 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 @interface HyBaseViewController (HyUITransition)
 
-- (void)pushToViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(HyEXTVoidBlock)completion userInfo:(NSDictionary *)userInfo;
-- (void)presentViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(HyEXTVoidBlock)completion userInfo:(NSDictionary *)userInfo;
+- (void)pushToViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(dispatch_block_t)completion userInfo:(NSDictionary *)userInfo;
+- (void)presentViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(dispatch_block_t)completion userInfo:(NSDictionary *)userInfo;
 - (void)popViewControllerAnimated:(BOOL)animated;
 
 @end

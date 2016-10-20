@@ -30,7 +30,7 @@
 	return [self bundleFileContent:fileName failure:nil];
 }
 
-+ (NSString *)bundleFileContent:(NSString *)fileName failure:(HyEXTResultCallback)failure
++ (NSString *)bundleFileContent:(NSString *)fileName failure:(void (^)(NSError *))failure
 {
 	NSError *error = nil;
 	NSString *content = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:fileName ofType:@""] encoding:NSUTF8StringEncoding error:&error];
