@@ -75,7 +75,6 @@
         return;
     }
     NSMutableArray <NSIndexPath *> *indexPaths = [NSMutableArray arrayWithCapacity:range.length];
-    NSUInteger rowCount = [self numberOfRowsInSection:section];
     for (NSUInteger i = 0; i < range.length; i++) {
         [indexPaths addObject:[NSIndexPath indexPathForRow:range.location+i inSection:section]];
     }

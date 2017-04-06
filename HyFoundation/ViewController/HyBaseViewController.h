@@ -109,11 +109,3 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 @end
 
-
-@interface HyBaseViewController (HyUITransition)
-
-- (void)pushToViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(dispatch_block_t)completion userInfo:(NSDictionary *)userInfo;
-- (void)presentViewControllerUrl:(NSString *)controllerUrl animated:(BOOL)animated completion:(dispatch_block_t)completion userInfo:(NSDictionary *)userInfo;
-- (void)popViewControllerAnimated:(BOOL)animated;
-
-@end
