@@ -7,6 +7,8 @@
 
 #import "HyBaseViewController.h"
 #import "UIView+Hy.h"
+#import "HyNavigationBar.h"
+#import "HyNavigationItem.h"
 
 const CGFloat kHyNavigationBarHeight = 64.f;
 const CGFloat kHyStatusBarHeight = 20.f;
@@ -18,7 +20,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 @property (nonatomic, strong, readwrite) __kindof UIView *contentView;
 @property (nonatomic, assign, readwrite) HyViewControllerState state;
 
-@property (nonatomic, strong, readwrite) UINavigationBar *navigationBar;
+@property (nonatomic, strong, readwrite) HyNavigationBar *navigationBar;
 @property (nonatomic, assign, readwrite) BOOL navigationBarHidden;
 
 @property (nonatomic, weak, readwrite) __kindof UIView *navigationLeftCustomView;
@@ -37,7 +39,6 @@ const CGFloat kHyStatusBarHeight = 20.f;
 #endif
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-//	[[NSNotificationCenter defaultCenter] removeObserver:self name:kRGUIStatusBarTouchedNotificationName object:nil];
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -98,7 +99,6 @@ const CGFloat kHyStatusBarHeight = 20.f;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleStatusBarTouched:) name:kRGUIStatusBarTouchedNotificationName object:nil];
 }
 
 
@@ -122,19 +122,23 @@ const CGFloat kHyStatusBarHeight = 20.f;
 
     if ([self preferCustomNavigationBar]) {
         // 使用自定义 navigationBar
-        UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), navigationBarHeight)];
+        HyNavigationBar *navigationBar = [[HyNavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), navigationBarHeight)];
         navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        navigationBar.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:navigationBar];
         self.navigationBar = navigationBar;
-	}
-	else if (self.navigationController.navigationBar) {
-        self.navigationBar = self.navigationController.navigationBar;
-	}
+    }
 }
 
 - (void)loadData
 {
 	
+}
+
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    [self setNavigationCenterItemWithTitle:title color:[self.navigationBar forgroundColor]];
 }
 
 - (BOOL)preferCustomNavigationBar
@@ -171,7 +175,6 @@ const CGFloat kHyStatusBarHeight = 20.f;
                      animations:^{
                          self.navigationBar.y = 0;
                          self.navigationBar.height = [self preferNavigationBarHeight];
-                         [self.navigationBar setItems:@[self.navigationItem]];
                      }];
 }
 
@@ -183,19 +186,17 @@ const CGFloat kHyStatusBarHeight = 20.f;
                          self.navigationBar.y = kHyStatusBarHeight - [self preferNavigationBarHeight];
                      }
                      completion:^(BOOL finished) {
-                         [self.navigationBar setItems:nil];
                      }];
 }
 
 - (void)setNeedsNavigationBarAppearanceUpdate
 {
-	if ([self preferCustomNavigationBar]) {
+    if ([self preferCustomNavigationBar]) {
 		// 使用自定义 navigationBar 则更新
 		self.navigationBar.height = [self preferNavigationBarHeight];
 		self.navigationBar.hidden = [self preferNavigationBarHidden];
-        [self.navigationBar setItems:@[self.navigationItem]];
         [self.view bringSubviewToFront:self.navigationBar];
-	}
+    }
 }
 
 - (void)setNavigationCenterItemWithTitle:(NSString *)title color:(UIColor *)color
@@ -211,7 +212,8 @@ const CGFloat kHyStatusBarHeight = 20.f;
 
 - (void)setNavigationCenterItemWithCustomView:(UIView *)view
 {
-	self.navigationItem.titleView = view;
+    self.navigationBar.navigationItem.titleView = view;
+    [self.navigationBar setNeedsUpdateConstraints];
 }
 
 - (void)setNavigationLeftItemWithTitle:(NSString *)title
@@ -275,37 +277,15 @@ const CGFloat kHyStatusBarHeight = 20.f;
 - (void)setNavigationLeftItemWithCustomView:(UIView *)customView
 {
     self.navigationLeftCustomView = customView;
-	self.navigationItem.leftBarButtonItems = [self _navigationLeftItemsWithCustomView:customView];
+    self.navigationBar.navigationItem.leftView = customView;
+    [self.navigationBar setNeedsUpdateConstraints];
 }
 
 - (void)setNavigationRightItemWithCustomView:(UIView *)customView
 {
     self.navigationRightCustomView = customView;
-	self.navigationItem.rightBarButtonItems = [self _navigationRightItemsWithCustomView:customView];
-}
-
-- (NSArray *)_navigationLeftItemsWithCustomView:(UIView *)customView
-{
-	UIBarButtonItem * leftCustomItem = [[UIBarButtonItem alloc] initWithCustomView:customView];
-	
-	CGFloat leftPaddingItemWidth = -16.f;
-
-	UIBarButtonItem * leftPaddingItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-	leftPaddingItem.width = leftPaddingItemWidth;
-
-	return @[leftPaddingItem, leftCustomItem];
-}
-
-- (NSArray *)_navigationRightItemsWithCustomView:(UIView *)customView
-{
-	UIBarButtonItem * rightCustomItem = [[UIBarButtonItem alloc] initWithCustomView:customView];
-
-	CGFloat rightPaddingItemWidth = -16.f;
-
-	UIBarButtonItem * rightPaddingItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-	rightPaddingItem.width = rightPaddingItemWidth;
-
-	return @[rightPaddingItem, rightCustomItem];
+    self.navigationBar.navigationItem.rightView = customView;
+    [self.navigationBar setNeedsUpdateConstraints];
 }
 
 #pragma mark - User Interaction

@@ -265,7 +265,7 @@ UIImage *HyCGImage(CGImageRef image)
 		return nil;
 	}
 	
-	UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+	UIGraphicsBeginImageContextWithOptions(size, NO, UIScreen.mainScreen.scale);
 	
 	[[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) cornerRadius:cornerRadius] addClip];
 	

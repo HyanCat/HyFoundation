@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 	HyViewControllerStateDidDisappear,
 };
 
+@class HyNavigationBar;
 @class HyContainerViewController;
 
 /**
@@ -35,7 +36,7 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 #pragma mark - Navigation Bar
 
-@property (nonatomic, strong, readonly) UINavigationBar *navigationBar;
+@property (nonatomic, strong, readonly) HyNavigationBar *navigationBar;
 @property (nonatomic, assign, readonly, getter=isNavigationBarHidden) BOOL navigationBarHidden;
 
 - (BOOL)preferCustomNavigationBar;		// default YES

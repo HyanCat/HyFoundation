@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
   s.dependency  'DateTools'
+  s.dependency  'Masonry'
 
   s.source_files = 'HyFoundation/**/*.{h,m}'
   s.public_header_files = 'HyFoundation/**/*.h'
