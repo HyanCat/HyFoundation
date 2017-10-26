@@ -111,7 +111,7 @@
             make.centerX.mas_equalTo(0);
             make.top.mas_equalTo(self.topLayoutGuide);
             make.height.mas_equalTo(self.preferredHeight);
-            CGFloat width = MAX(MAX(leftViewSize.width, rightViewSize.width), margin);
+            CGFloat width = MAX(MAX(leftViewSize.width, rightViewSize.width), 44+margin);
             make.left.mas_equalTo(width);
         }];
     }
