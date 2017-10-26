@@ -59,69 +59,61 @@
 {
     [super updateConstraints];
 
+    [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+
     CGFloat margin = self.navigationItem.preferMargin;
 
+    CGSize leftViewSize = CGSizeZero;
     UIView *leftView = self.navigationItem.leftView;
     if (leftView) {
-        if (!leftView.superview) {
-            [self addSubview:leftView];
-            CGSize size = [leftView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-            [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(self.topLayoutGuide);
-                make.height.mas_equalTo(self.preferredHeight);
-                if (size.width > 44) {
-                    make.left.mas_equalTo(margin);
-                    make.width.mas_equalTo(size.width);
-                } else {
-                    // 保证视觉效果的 margin，但是点击区域最小 44
-                    CGFloat realMargin = 16-(44-size.width)/2;
-                    make.left.mas_equalTo(realMargin);
-                    make.width.mas_equalTo(44);
-                }
-            }];
-        }
+        [self addSubview:leftView];
+        leftViewSize = [leftView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.topLayoutGuide);
+            make.height.mas_equalTo(self.preferredHeight);
+            if (leftViewSize.width > 44) {
+                make.left.mas_equalTo(margin);
+                make.width.mas_equalTo(leftViewSize.width);
+            } else {
+                // 保证视觉效果的 margin，但是点击区域最小 44
+                CGFloat realMargin = 16-(44-leftViewSize.width)/2;
+                make.left.mas_equalTo(realMargin);
+                make.width.mas_equalTo(44);
+            }
+        }];
     }
+    CGSize rightViewSize = CGSizeZero;
     UIView *rightView = self.navigationItem.rightView;
     if (rightView) {
-        if (!rightView.superview) {
-            [self addSubview:rightView];
-            CGSize size = [rightView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-            [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(self.topLayoutGuide);
-                make.height.mas_equalTo(self.preferredHeight);
-                if (size.width > 44) {
-                    make.right.mas_equalTo(-margin);
-                    make.width.mas_equalTo(size.width);
-                } else {
-                    // 保证视觉效果的 margin，但是点击区域最小 44
-                    CGFloat realMargin = 16-(44-size.width)/2;
-                    make.right.mas_equalTo(-realMargin);
-                    make.width.mas_equalTo(44);
-                }
-            }];
-        }
+        [self addSubview:rightView];
+        rightViewSize = [rightView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.topLayoutGuide);
+            make.height.mas_equalTo(self.preferredHeight);
+            if (rightViewSize.width > 44) {
+                make.right.mas_equalTo(-margin);
+                make.width.mas_equalTo(rightViewSize.width);
+            } else {
+                // 保证视觉效果的 margin，但是点击区域最小 44
+                CGFloat realMargin = 16-(44-rightViewSize.width)/2;
+                make.right.mas_equalTo(-realMargin);
+                make.width.mas_equalTo(44);
+            }
+        }];
     }
 
     UIView *titleView = self.navigationItem.titleView;
     if (titleView) {
-        if (!titleView.superview) {
-            [self addSubview:titleView];
-            [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerX.mas_equalTo(0);
-                make.top.mas_equalTo(self.topLayoutGuide);
-                make.height.mas_equalTo(self.preferredHeight);
-                if (leftView) {
-                    make.left.greaterThanOrEqualTo(leftView.mas_right).offset(margin);
-                } else {
-                    make.left.mas_greaterThanOrEqualTo(margin);
-                }
-                if (rightView) {
-                    make.right.lessThanOrEqualTo(rightView.mas_left).offset(-margin);
-                } else {
-                    make.right.mas_lessThanOrEqualTo(-margin);
-                }
-            }];
-        }
+        [self addSubview:titleView];
+        [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(0);
+            make.top.mas_equalTo(self.topLayoutGuide);
+            make.height.mas_equalTo(self.preferredHeight);
+            CGFloat width = MAX(MAX(leftViewSize.width, rightViewSize.width), margin);
+            make.left.mas_equalTo(width);
+        }];
     }
 
     UIView *extendView = self.navigationItem.extendView;

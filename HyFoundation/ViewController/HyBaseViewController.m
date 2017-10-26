@@ -127,6 +127,8 @@ const CGFloat kHyStatusBarHeight = 20.f;
         navigationBar.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:navigationBar];
         self.navigationBar = navigationBar;
+
+        self.navigationBar.hidden = [self preferNavigationBarHidden];
     }
 }
 
