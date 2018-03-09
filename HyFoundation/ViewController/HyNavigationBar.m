@@ -12,6 +12,8 @@
 
 @interface HyNavigationBar ()
 
+@property (nonatomic, strong, readwrite) UIView *backgroundView;
+
 @end
 
 @implementation HyNavigationBar
@@ -39,6 +41,8 @@
 {
     _preferredStatusBarMargin = 20.f;
     _preferredHeight = 44.f;
+
+    self.backgroundView = [[UIView alloc] init];
 }
 
 - (void)setNavigationItem:(HyNavigationItem *)navigationItem
@@ -55,12 +59,26 @@
     return _navigationItem;
 }
 
+- (void)setBackgroundView:(UIView * _Nonnull)backgroundView
+{
+    if (_backgroundView) {
+        [_backgroundView removeFromSuperview];
+    }
+    _backgroundView = backgroundView;
+    [self addSubview:backgroundView];
+    [self sendSubviewToBack:backgroundView];
+    backgroundView.frame = self.bounds;
+    backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+}
+
 - (void)updateConstraints
 {
     [super updateConstraints];
 
     [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
+        if (![obj isEqual:self.backgroundView]) {
+            [obj removeFromSuperview];
+        }
     }];
 
     CGFloat margin = self.navigationItem.preferMargin;
@@ -133,6 +151,8 @@
             }];
         }
     }
+
+    [self sendSubviewToBack:self.backgroundView];
 }
 
 - (CGFloat)topLayoutGuide

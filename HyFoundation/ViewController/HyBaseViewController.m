@@ -124,7 +124,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
         // 使用自定义 navigationBar
         HyNavigationBar *navigationBar = [[HyNavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), navigationBarHeight)];
         navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        navigationBar.backgroundColor = [UIColor whiteColor];
+        navigationBar.backgroundView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:navigationBar];
         self.navigationBar = navigationBar;
 
