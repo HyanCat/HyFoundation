@@ -17,5 +17,7 @@
 @property (nonatomic, strong) __kindof UIView *extendView;
 
 @property (nonatomic, assign) CGFloat preferMargin; // default 16.f
+@property (nonatomic, assign) CGSize leftCompactSize;
+@property (nonatomic, assign) CGSize rightCompactSize;
 
 @end

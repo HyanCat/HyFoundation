@@ -11,7 +11,11 @@
 #import <Masonry/Masonry.h>
 
 @interface HyNavigationBar ()
-
+{
+@private
+    Boolean _leftCompacted;
+    Boolean _rightCompacted;
+}
 @property (nonatomic, strong, readwrite) UIView *backgroundView;
 
 @end
@@ -88,6 +92,10 @@
     if (leftView) {
         [self addSubview:leftView];
         leftViewSize = [leftView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        if (!_leftCompacted) {
+            self.navigationItem.leftCompactSize = leftViewSize;
+        }
+        _leftCompacted = YES;
         [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.topLayoutGuide);
             make.height.mas_equalTo(self.preferredHeight);
@@ -96,7 +104,7 @@
                 make.width.mas_equalTo(leftViewSize.width);
             } else {
                 // 保证视觉效果的 margin，但是点击区域最小 44
-                CGFloat realMargin = 16-(44-leftViewSize.width)/2;
+                CGFloat realMargin = 16-(44-self.navigationItem.leftCompactSize.width)/2;
                 make.left.mas_equalTo(realMargin);
                 make.width.mas_equalTo(44);
             }
@@ -107,6 +115,10 @@
     if (rightView) {
         [self addSubview:rightView];
         rightViewSize = [rightView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        if (!_rightCompacted) {
+            self.navigationItem.rightCompactSize = leftViewSize;
+        }
+        _leftCompacted = YES;
         [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.topLayoutGuide);
             make.height.mas_equalTo(self.preferredHeight);
@@ -115,7 +127,7 @@
                 make.width.mas_equalTo(rightViewSize.width);
             } else {
                 // 保证视觉效果的 margin，但是点击区域最小 44
-                CGFloat realMargin = 16-(44-rightViewSize.width)/2;
+                CGFloat realMargin = 16-(44-self.navigationItem.rightCompactSize.width)/2;
                 make.right.mas_equalTo(-realMargin);
                 make.width.mas_equalTo(44);
             }
