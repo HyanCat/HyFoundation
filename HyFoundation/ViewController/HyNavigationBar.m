@@ -116,9 +116,9 @@
         [self addSubview:rightView];
         rightViewSize = [rightView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         if (!_rightCompacted) {
-            self.navigationItem.rightCompactSize = leftViewSize;
+            self.navigationItem.rightCompactSize = rightViewSize;
         }
-        _leftCompacted = YES;
+        _rightCompacted = YES;
         [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.topLayoutGuide);
             make.height.mas_equalTo(self.preferredHeight);
