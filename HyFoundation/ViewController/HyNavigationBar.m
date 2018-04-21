@@ -75,6 +75,17 @@
     backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
+- (void)setScrollOffset:(CGFloat)scrollOffset
+{
+    _scrollOffset = scrollOffset;
+    if (scrollOffset >=0 && scrollOffset <= 40.f) {
+        self.layer.shadowOpacity = scrollOffset / 50.f;
+    }
+    else if (scrollOffset >= 40.f) {
+        self.layer.shadowOpacity = 0.8f;
+    }
+}
+
 - (void)updateConstraints
 {
     [super updateConstraints];

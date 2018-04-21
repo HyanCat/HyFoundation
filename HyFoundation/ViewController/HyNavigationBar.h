@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat preferredHeight UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *forgroundColor UI_APPEARANCE_SELECTOR;
 
+@property (nonatomic, assign) CGFloat scrollOffset;
+
 @end
 
 NS_ASSUME_NONNULL_END
