@@ -9,6 +9,7 @@
 #import "UIView+Hy.h"
 #import "HyNavigationBar.h"
 #import "HyNavigationItem.h"
+@import Masonry;
 
 const CGFloat kHyNavigationBarHeight = 64.f;
 const CGFloat kHyStatusBarHeight = 20.f;
@@ -122,10 +123,14 @@ const CGFloat kHyStatusBarHeight = 20.f;
 
     if ([self preferCustomNavigationBar]) {
         // 使用自定义 navigationBar
-        HyNavigationBar *navigationBar = [[HyNavigationBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), navigationBarHeight)];
-        navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        HyNavigationBar *navigationBar = [[HyNavigationBar alloc] init];
         navigationBar.backgroundView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:navigationBar];
+        [navigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(0);
+            make.left.mas_equalTo(0);
+            make.right.mas_equalTo(0);
+        }];
         self.navigationBar = navigationBar;
 
         self.navigationBar.hidden = [self preferNavigationBarHidden];
@@ -162,7 +167,12 @@ const CGFloat kHyStatusBarHeight = 20.f;
 
 - (CGFloat)preferNavigationBarHeight
 {
-	return kHyNavigationBarHeight;
+    return kHyNavigationBarHeight;
+}
+
+- (CGFloat)navigationBarHeight
+{
+	return MAX(self.navigationBar.bounds.size.height, kHyNavigationBarHeight);
 }
 
 - (CGFloat)preferBottomBarHeight
@@ -173,10 +183,10 @@ const CGFloat kHyStatusBarHeight = 20.f;
 - (void)showNavigationBarAnimated:(BOOL)animated
 {
     self.navigationBarHidden = YES;
+    self.navigationBar.y = -self.navigationBarHeight;
     [UIView animateWithDuration:.3f
                      animations:^{
                          self.navigationBar.y = 0;
-                         self.navigationBar.height = [self preferNavigationBarHeight];
                      }];
 }
 
@@ -185,9 +195,10 @@ const CGFloat kHyStatusBarHeight = 20.f;
     self.navigationBarHidden = NO;
     [UIView animateWithDuration:.3f
                      animations:^{
-                         self.navigationBar.y = kHyStatusBarHeight - [self preferNavigationBarHeight];
+                         self.navigationBar.y = -self.navigationBarHeight;
                      }
                      completion:^(BOOL finished) {
+                         [self.navigationBar setHidden:YES];
                      }];
 }
 
@@ -195,8 +206,8 @@ const CGFloat kHyStatusBarHeight = 20.f;
 {
     if ([self preferCustomNavigationBar]) {
 		// 使用自定义 navigationBar 则更新
-		self.navigationBar.height = [self preferNavigationBarHeight];
 		self.navigationBar.hidden = [self preferNavigationBarHidden];
+        [self.navigationBar setNeedsLayout];
         [self.view bringSubviewToFront:self.navigationBar];
     }
 }

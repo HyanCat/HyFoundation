@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 - (BOOL)preferNavigationBarHidden;		// default NO
 
-- (CGFloat)preferNavigationBarHeight;	// default 64.0f
+- (CGFloat)navigationBarHeight;	// default 64.0f
 
 - (CGFloat)preferBottomBarHeight;		// default 0
 

@@ -67,7 +67,6 @@
 #define HyScreenHeight	[UIScreen mainScreen].bounds.size.height
 
 #define HyStatusBarHeight		22.f
-#define HyNavigationBarHeight	44.f
 #define HyTabBarHeight			50.f
 #define HyToolBarHeight			44.f
 
