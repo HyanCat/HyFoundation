@@ -10,8 +10,6 @@
 #import "HyNavigationItem.h"
 #import <Masonry/Masonry.h>
 
-#define iOS_11_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.f)
-
 @interface HyNavigationBar ()
 {
 @private
@@ -56,7 +54,7 @@
 
     [self addSubview:self.containerView];
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (iOS_11_OR_LATER) {
+        if (@available(iOS 11.0, *)) {
             make.top.equalTo(self.mas_safeAreaLayoutGuideTop);
         } else {
             make.top.mas_equalTo(self.topLayoutGuide);
