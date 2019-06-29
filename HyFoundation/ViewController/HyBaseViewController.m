@@ -7,8 +7,6 @@
 
 #import "HyBaseViewController.h"
 #import "UIView+Hy.h"
-#import "HyNavigationBar.h"
-#import "HyNavigationItem.h"
 @import Masonry;
 
 const CGFloat kHyNavigationBarHeight = 64.f;
@@ -20,12 +18,6 @@ const CGFloat kHyStatusBarHeight = 20.f;
 
 @property (nonatomic, strong, readwrite) __kindof UIView *contentView;
 @property (nonatomic, assign, readwrite) HyViewControllerState state;
-
-@property (nonatomic, strong, readwrite) HyNavigationBar *navigationBar;
-@property (nonatomic, assign, readwrite) BOOL navigationBarHidden;
-
-@property (nonatomic, weak, readwrite) __kindof UIView *navigationLeftCustomView;
-@property (nonatomic, weak, readwrite) __kindof UIView *navigationRightCustomView;
 
 @end
 
@@ -96,8 +88,6 @@ const CGFloat kHyStatusBarHeight = 20.f;
 	
 	[self loadData];
 	
-	[self setNeedsNavigationBarAppearanceUpdate];
-	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
@@ -111,30 +101,15 @@ const CGFloat kHyStatusBarHeight = 20.f;
 	self.contentView = [[self.contentViewClass alloc] init];
 	self.contentView.backgroundColor = [UIColor whiteColor];
 
-    CGFloat navigationBarHeight = [self preferNavigationBarHeight];
+//    CGFloat navigationBarHeight = [self preferNavigationBarHeight];
 	if ([self.contentViewClass isSubclassOfClass:[UIScrollView class]]) {
 		UIScrollView *scrollView = self.contentView;
 		scrollView.alwaysBounceVertical = YES;
 		scrollView.showsHorizontalScrollIndicator = NO;
-		[scrollView setContentInset:UIEdgeInsetsMake(navigationBarHeight, 0, 0, 0)];
-		[scrollView setScrollIndicatorInsets:UIEdgeInsetsMake(navigationBarHeight, 0, 0, 0)];
+//        [scrollView setContentInset:UIEdgeInsetsMake(navigationBarHeight, 0, 0, 0)];
+//        [scrollView setScrollIndicatorInsets:UIEdgeInsetsMake(navigationBarHeight, 0, 0, 0)];
 	}
 	[self.view insertSubviewToFill:self.contentView atIndex:0];
-
-    if ([self preferCustomNavigationBar]) {
-        // 使用自定义 navigationBar
-        HyNavigationBar *navigationBar = [[HyNavigationBar alloc] init];
-        navigationBar.backgroundView.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:navigationBar];
-        [navigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(0);
-            make.left.mas_equalTo(0);
-            make.right.mas_equalTo(0);
-        }];
-        self.navigationBar = navigationBar;
-
-        self.navigationBar.hidden = [self preferNavigationBarHidden];
-    }
 }
 
 - (void)loadData
@@ -145,7 +120,7 @@ const CGFloat kHyStatusBarHeight = 20.f;
 - (void)setTitle:(NSString *)title
 {
     [super setTitle:title];
-    [self setNavigationCenterItemWithTitle:title color:[self.navigationBar forgroundColor]];
+//    [self setNavigationCenterItemWithTitle:title color:[self.navigationBar forgroundColor]];
 }
 
 - (BOOL)preferCustomNavigationBar
@@ -165,140 +140,9 @@ const CGFloat kHyStatusBarHeight = 20.f;
 	[super viewWillLayoutSubviews];
 }
 
-- (CGFloat)preferNavigationBarHeight
-{
-    return kHyNavigationBarHeight;
-}
-
-- (CGFloat)navigationBarHeight
-{
-	return MAX(self.navigationBar.bounds.size.height, kHyNavigationBarHeight);
-}
-
 - (CGFloat)preferBottomBarHeight
 {
 	return 0;
-}
-
-- (void)showNavigationBarAnimated:(BOOL)animated
-{
-    self.navigationBarHidden = YES;
-    self.navigationBar.y = -self.navigationBarHeight;
-    [UIView animateWithDuration:.3f
-                     animations:^{
-                         self.navigationBar.y = 0;
-                     }];
-}
-
-- (void)hideNavigationBarAnimated:(BOOL)animated
-{
-    self.navigationBarHidden = NO;
-    [UIView animateWithDuration:.3f
-                     animations:^{
-                         self.navigationBar.y = -self.navigationBarHeight;
-                     }
-                     completion:^(BOOL finished) {
-                         [self.navigationBar setHidden:YES];
-                     }];
-}
-
-- (void)setNeedsNavigationBarAppearanceUpdate
-{
-    if ([self preferCustomNavigationBar]) {
-		// 使用自定义 navigationBar 则更新
-		self.navigationBar.hidden = [self preferNavigationBarHidden];
-        [self.navigationBar setNeedsLayout];
-        [self.view bringSubviewToFront:self.navigationBar];
-    }
-}
-
-- (void)setNavigationCenterItemWithTitle:(NSString *)title color:(UIColor *)color
-{
-    UILabel * titleLabel     = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 160, 44)];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.text          = title;
-    titleLabel.textColor     = color;
-    titleLabel.font          = [UIFont boldSystemFontOfSize:16.f];
-
-	[self setNavigationCenterItemWithCustomView:titleLabel];
-}
-
-- (void)setNavigationCenterItemWithCustomView:(UIView *)view
-{
-    self.navigationBar.navigationItem.titleView = view;
-    [self.navigationBar setNeedsUpdateConstraints];
-}
-
-- (void)setNavigationLeftItemWithTitle:(NSString *)title
-								 color:(UIColor *)color
-						highlightColor:(UIColor *)highlightColor
-								target:(id)target
-								action:(SEL)action
-{
-	UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
-	[leftButton setTitle:title forState:UIControlStateNormal];
-	[leftButton setTitleColor:color forState:UIControlStateNormal];
-	[leftButton setTitleColor:highlightColor forState:UIControlStateHighlighted];
-	leftButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
-	[leftButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-	
-	[self setNavigationLeftItemWithCustomView:leftButton];
-}
-
-- (void)setNavigationLeftItemWithImage:(UIImage *)image
-						highlightImage:(UIImage *)highlightImage
-								target:(id)target
-								action:(SEL)action
-{
-	UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-	[leftButton setImage:image forState:UIControlStateNormal];
-	[leftButton setImage:highlightImage forState:UIControlStateHighlighted];
-	[leftButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-
-	[self setNavigationLeftItemWithCustomView:leftButton];
-}
-
-- (void)setNavigationRightItemWithTitle:(NSString *)title
-								  color:(UIColor *)color
-						 highlightColor:(UIColor *)highlightColor
-								 target:(id)target
-								 action:(SEL)action
-{
-	UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
-	[rightButton setTitle:title forState:UIControlStateNormal];
-	[rightButton setTitleColor:color forState:UIControlStateNormal];
-	[rightButton setTitleColor:highlightColor forState:UIControlStateHighlighted];
-	rightButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
-	[rightButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-	
-	[self setNavigationRightItemWithCustomView:rightButton];
-}
-
-- (void)setNavigationRightItemWithImage:(UIImage *)image
-						 highlightImage:(UIImage *)highlightImage
-								 target:(id)target
-								 action:(SEL)action
-{
-	UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-	[rightButton setImage:image forState:UIControlStateNormal];
-	[rightButton setImage:highlightImage forState:UIControlStateHighlighted];
-	[rightButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-
-	[self setNavigationRightItemWithCustomView:rightButton];
-}
-
-- (void)setNavigationLeftItemWithCustomView:(UIView *)customView
-{
-    self.navigationLeftCustomView = customView;
-    self.navigationBar.navigationItem.leftView = customView;
-    [self.navigationBar setNeedsUpdateConstraints];
-}
-
-- (void)setNavigationRightItemWithCustomView:(UIView *)customView
-{
-    self.navigationRightCustomView = customView;
-    self.navigationBar.navigationItem.rightView = customView;
-    [self.navigationBar setNeedsUpdateConstraints];
 }
 
 #pragma mark - User Interaction

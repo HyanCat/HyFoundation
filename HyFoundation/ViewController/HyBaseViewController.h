@@ -16,7 +16,6 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 	HyViewControllerStateDidDisappear,
 };
 
-@class HyNavigationBar;
 @class HyContainerViewController;
 
 /**
@@ -34,57 +33,9 @@ typedef NS_ENUM(NSUInteger, HyViewControllerState)
 
 - (void)loadData;
 
-#pragma mark - Navigation Bar
-
-@property (nonatomic, strong, readonly) HyNavigationBar *navigationBar;
-@property (nonatomic, assign, readonly, getter=isNavigationBarHidden) BOOL navigationBarHidden;
-
-- (BOOL)preferCustomNavigationBar;		// default YES
-
 - (BOOL)preferNavigationBarHidden;		// default NO
 
-- (CGFloat)navigationBarHeight;	// default 64.0f
-
 - (CGFloat)preferBottomBarHeight;		// default 0
-
-- (void)showNavigationBarAnimated:(BOOL)animated;
-- (void)hideNavigationBarAnimated:(BOOL)animated;
-
-- (void)setNeedsNavigationBarAppearanceUpdate;
-
-#pragma mark Navigation Items
-
-- (void)setNavigationCenterItemWithTitle:(NSString *)title
-                                   color:(UIColor *)color;
-
-- (void)setNavigationLeftItemWithTitle:(NSString *)title
-								 color:(UIColor *)color
-						highlightColor:(UIColor *)highlightColor
-								target:(id)target
-								action:(SEL)action;
-
-- (void)setNavigationRightItemWithTitle:(NSString *)title
-                                  color:(UIColor *)color
-                         highlightColor:(UIColor *)highlightColor
-                                 target:(id)target
-                                 action:(SEL)action;
-
-- (void)setNavigationLeftItemWithImage:(UIImage *)image
-						highlightImage:(UIImage *)highlightImage
-								target:(id)target
-								action:(SEL)action;
-
-- (void)setNavigationRightItemWithImage:(UIImage *)image
-						 highlightImage:(UIImage *)highlightImage
-								 target:(id)target
-								 action:(SEL)action;
-
-- (void)setNavigationCenterItemWithCustomView:(__kindof UIView *)view;
-- (void)setNavigationLeftItemWithCustomView:(__kindof UIView *)customView;
-- (void)setNavigationRightItemWithCustomView:(__kindof UIView *)customView;
-
-@property (nonatomic, weak, readonly) __kindof UIView *navigationLeftCustomView;
-@property (nonatomic, weak, readonly) __kindof UIView *navigationRightCustomView;
 
 #pragma mark - User Interaction
 
